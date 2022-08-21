@@ -1,0 +1,33 @@
+install.packages("lubridate")
+install.packages("ggplot2")
+install.packages("dplyr")
+install.packages("tidyverse")
+install.packages("ozmaps")
+install.packages("sf")
+install.packages("rvest")
+install.packages("ggpubr")
+
+library(lubridate)    
+library(ggplot2)
+library(dplyr)
+library(readr)
+library(tidyverse)
+library(ozmaps)
+library(sf)
+library(rvest)
+library(ggpubr)
+library(jpeg)
+
+wildnetkoalalocations <- read_csv("C:/Users/61481/Documents/University/GOVHACK/wildnetkoalalocations.csv")
+
+MapInfo <- ozmaps::ozmap_states %>% filter(NAME=="Queensland")
+
+MapInfo2 <- ozmaps::abs_lga
+
+qldLGA <- st_crop(MapInfo2$geometry, MapInfo$geometry)
+
+Map1 <- ggplot() + 
+  geom_sf(data = qldLGA, colour = "black", fill = "white") +
+  geom_point(data = wildnetkoalalocations, aes(x = LONGITUDE, y = LATITUDE), size =1, shape= ".", colour = "green")
+Map1
+  
